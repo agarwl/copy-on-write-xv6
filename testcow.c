@@ -83,9 +83,3 @@ int main(void)
     printf(1,"Test3 finished\n");
     exit();
 }
- 
-
-
-
-
-

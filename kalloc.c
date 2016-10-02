@@ -72,10 +72,10 @@ kfree(char *v)
   if(kmem.use_lock)
     acquire(&kmem.lock);
   r = (struct run*)v;
-  
+
   if(kmem.pg_refcount[V2P(v) >> PGSHIFT] > 0)         // Decrement the reference count of a page whenever someone frees it
     --kmem.pg_refcount[V2P(v) >> PGSHIFT];
-  
+
   if(kmem.pg_refcount[V2P(v) >> PGSHIFT] == 0){       // Free the page only if there are no references to the page
     // Fill with junk to catch dangling refs.
     memset(v, 1, PGSIZE);
@@ -113,14 +113,14 @@ kalloc(void)
 
 uint numFreePages(void)
 {
-  acquire(&kmem.lock);                                   
+  acquire(&kmem.lock);
   uint free_pages = kmem.free_pages;
   release(&kmem.lock);
   return free_pages;
 }
 
 void decrementReferenceCount(uint pa)
-{ 
+{
   if(pa < (uint)V2P(end) || pa >= PHYSTOP)
     panic("decrementReferenceCount");
 
